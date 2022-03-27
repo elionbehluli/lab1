@@ -1,0 +1,12 @@
+Projekti eshte sistemi i nje federate te futbollit perfshire kompeticionet brenda saj.
+Si landing page paraqitet Home page, ku do te jete nje slider me informatat me te reja.
+Ne nav jane 4 butona per pjeset kryesore te web aplikacionit. Me ane te butonit GARAT 
+krijohet qasja ne kompeticionet ku pas zgjedhjes se ndonjeres prej tyre do te shfaqet
+renditja e klubeve ne kompeticion. Nese klikojme ndonje klub do te paraqitet skuadra ku pjese
+e saje do te jene: Trajneri, Ndihmes trajneret, Stafi mjeksor, Drejtori klubit, Lojtaret.
+Nese klikojme ne njerin nga individet to te shfaqen te dhenat e individit. Butoni tjeter
+ne nav eshte Admin. Mund te behet sign up nese nuk ekziston. Nese po atehere lejohet qasja me
+sign in. Funksioni i Sign In do te jete se nese jemi Sign In si admin ateher
+do te kemi qasje ne shtimin, perdisimin dhe fshirjen e CRUD-ve perndryshe nese nuk jemi 
+Sign In keta butona do te jene hidden. Dhe butoni i fundit ne nav eshte Anetaret. Ne ta do
+te jene antaret e federates si Drejtori, Stafi, Antaret etj.
