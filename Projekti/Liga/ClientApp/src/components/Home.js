@@ -6,7 +6,7 @@ export class Home extends Component {
   render () {
       return (   
       <div>
-        <h1>Projekti Lab Course 1 (Liga e futbollit) - Elion Behluli,Lindrit Ramusa</h1>
+        <h1>Projekti Lab Course 1 (Liga e futbollit) - Elion Behluli,Lindrit Ramusa - DO FILLOJME SE SHPEJTI</h1>
               <p>Mire se vini ne aplikacionin tuaj te ri me nje faqe, i ndertuar me:</p>
         <ul>
           <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
