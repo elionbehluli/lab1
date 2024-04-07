@@ -8,14 +8,39 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Http\Requests\Auth\UserRegisterRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
 {
-   
-    public function register()
+
+    public function register(UserRegisterRequest $request)
     {
-        return 'registertest';
+        $request->validated();
+
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ];
+
+        // Check if the request is coming from an authenticated admin
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            // If admin, assign 'employee' role
+            $userData['role'] = 'employee';
+        } else {
+            // If not admin, assign 'customer' role by default
+            $userData['role'] = 'customer';
+        }
+
+        $user = User::create($userData);
+
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(compact('user', 'token'), 201);
+
     }
 
     public function login(LoginRequest $request)
