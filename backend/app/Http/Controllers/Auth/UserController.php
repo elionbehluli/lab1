@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\Request;
-use App\Models\User;
+use App\Http\Requests\Auth\UserRegisterRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use App\Http\Requests\Auth\UserRegisterRequest;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
