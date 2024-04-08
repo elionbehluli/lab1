@@ -54,6 +54,12 @@ class UserController extends Controller
         ]);
     }
 
+    public function refreshToken()
+    {
+        return response()->json([
+            'token' => JWTAuth::parseToken()->refresh(),
+        ]);
+    }
     public function logout()
     {
         return 'logouttest';
