@@ -29,4 +29,10 @@ class Brand extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function cars()
+    {
+        return $this->hasMany(Car::class);
+    }
+
 }
