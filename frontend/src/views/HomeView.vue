@@ -1,6 +1,7 @@
 <template>
   <main>
     <div>
+      <NavBar />
       <WelcomeHome />
     </div>
   </main>
@@ -8,4 +9,5 @@
 
 <script setup lang="ts">
 import WelcomeHome from '../components/WelcomeHome.vue'
+import NavBar from '../components/NavBar.vue'
 </script>
