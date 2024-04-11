@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import NavbarLayout from '../layouts/NavbarLayout.vue'
+import DefaultLayout from '../layouts/DefaultLayout.vue'
 import AboutView from '../views/AboutView.vue'
 import ServicesView from '@/views/ServicesView.vue'
 import CarsView from '@/views/CarsView.vue'
@@ -13,15 +13,9 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
-    },
-
-    {
-      path: '/',
-      component: NavbarLayout,
+      component: DefaultLayout,
       children: [
-        { path: '', redirect: '/about' },
+        { path: '/', component: HomeView },
         { path: 'about', component: AboutView },
         { path: 'services', component: ServicesView },
         { path: 'cars', component: CarsView },
