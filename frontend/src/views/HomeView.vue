@@ -7,5 +7,5 @@
 </template>
 
 <script setup lang="ts">
-import WelcomeHome from '../components/WelcomeHome.vue'
+import WelcomeHome from '@/components/WelcomeHome.vue'
 </script>
