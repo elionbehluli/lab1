@@ -10,30 +10,37 @@
           </div>
         </div>
         <div class="p-6 flex flex-col items-center justify-center">
-          <h1 class="text-3xl font-semibold mb-8">Regjistrohu</h1>
+          <h1 class="text-3xl font-semibold mb-8">Register a new Account</h1>
           <div class="w-full max-w-md">
-            <form class="text-center" @submit.prevent="handleLogin">
+            <form class="text-center" @submit.prevent="handleRegister">
+              <input v-model="form.name" type="text" placeholder="Full Name" class="input-field" />
               <input
                 v-model="form.email"
                 type="email"
-                placeholder="Email Adresa"
+                placeholder="Email Adress"
                 class="input-field"
               />
               <input
                 v-model="form.password"
                 :type="showPasswordField ? 'text' : 'password'"
-                placeholder="Fjalekalimi"
+                placeholder="Password"
+                class="input-field"
+              />
+              <input
+                v-model="form.password_confirmation"
+                :type="showPasswordField ? 'text' : 'password'"
+                placeholder="Confirm your Password"
                 class="input-field"
               />
               <div class="flex flex-col space-y-4 pt-4">
-                <button type="submit" class="btn-primary">Regjistrohu</button>
+                <button type="submit" class="btn-primary">Register</button>
               </div>
               <div class="flex items-center justify-center pt-8">
                 <button
                   @click="router.push('/login')"
                   class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
                 >
-                  Kthehu tek kyqja
+                  Back to Login
                 </button>
               </div>
             </form>
@@ -52,8 +59,10 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const form = ref({
+  name: '',
   email: '',
-  password: ''
+  password: '',
+  password_confirmation: ''
 })
 
 const router = useRouter()
@@ -62,10 +71,12 @@ const showPasswordField = ref(false)
 
 const authStore = useAuthStore()
 
-const handleLogin = async () => {
-  authStore.login({
+const handleRegister = async () => {
+  authStore.register({
+    name: form.value.name,
     email: form.value.email,
-    password: form.value.password
+    password: form.value.password,
+    password_confirmation: form.value.password_confirmation
   })
 }
 </script>

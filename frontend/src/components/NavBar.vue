@@ -12,7 +12,7 @@
           <router-link to="/contact" class="text-white hover:text-gray-300">Contact</router-link>
         </div>
 
-        <div class="flex space-x-4" v-if="!authStore.user">
+        <div class="flex space-x-4" v-if="!authStore.isLoggedIn">
           <router-link to="/login" class="text-white hover:text-gray-300">
             <button class="text-white hover:text-gray-300">Login</button>
           </router-link>
@@ -24,9 +24,9 @@
           <router-link to="/login" class="text-white hover:text-gray-300">
             <button class="text-white hover:text-gray-300">Dashboard</button>
           </router-link>
-          <router-link to="/register" class="text-white hover:text-gray-300">
-            <button class="text-white hover:text-gray-300">Logout</button>
-          </router-link>
+          <div class="text-white hover:text-gray-300">
+            <button @click="authStore.logout" class="text-white hover:text-gray-300">Logout</button>
+          </div>
         </div>
       </div>
     </div>
