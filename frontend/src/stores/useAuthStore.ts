@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(credentials: LoginCredentials) {
       try {
-        const { data } = await useApiFetch<LoginAPIResponse>('POST', 'auth/login', {
+        const { data } = await useApiFetch<APIResponse>('POST', 'auth/login', {
           data: credentials
         })
 
@@ -33,7 +33,7 @@ export const useAuthStore = defineStore('auth', {
 
     async register(credentials: RegistrationCredentials) {
       try {
-        const { data } = await useApiFetch<RegisterAPIResponse>('POST', 'auth/register', {
+        const { data } = await useApiFetch<APIResponse>('POST', 'auth/register', {
           data: credentials
         })
 

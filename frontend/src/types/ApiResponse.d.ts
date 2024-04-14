@@ -1,9 +1,4 @@
-interface LoginAPIResponse {
-  token: string
-  user: User
-}
-
-interface RegisterAPIResponse {
+interface APIResponse {
   token: string
   user: User
 }
