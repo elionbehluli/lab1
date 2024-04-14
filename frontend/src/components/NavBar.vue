@@ -47,7 +47,7 @@
           </router-link>
         </div>
         <div class="flex space-x-4" v-else>
-          <router-link to="/login" class="text-white hover:text-gray-300">
+          <router-link to="/dashboard" class="text-white hover:text-gray-300">
             <button class="text-white hover:text-gray-300">Dashboard</button>
           </router-link>
           <div class="text-white hover:text-gray-300">

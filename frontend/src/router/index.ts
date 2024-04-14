@@ -5,6 +5,7 @@ import AboutView from '../views/AboutView.vue'
 import ServicesView from '@/views/ServicesView.vue'
 import CarsView from '@/views/CarsView.vue'
 import ContactView from '@/views/ContactView.vue'
+import DashboardView from '@/views/DashboardView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import { useAuthStore } from '@/stores/useAuthStore'
@@ -36,6 +37,13 @@ const router = createRouter({
         requiresGuest: true
       },
       component: RegisterView
+    },
+    {
+      path: '/dashboard',
+      meta: {
+        requiresAuth: true
+      },
+      component: DashboardView
     }
   ]
 })
