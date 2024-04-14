@@ -10,23 +10,72 @@
           </div>
         </div>
         <div class="p-6 flex flex-col items-center justify-center">
-          <h1 class="text-3xl font-semibold mb-8">Register a new Account</h1>
+          <h1 class="text-3xl font-semibold mb-8" :class="{ 'text-gray-400': authStore.isLoading }">
+            Register a new Account
+          </h1>
           <div class="w-full max-w-md">
-            <form class="text-center" @submit.prevent="handleRegister">
-              <input v-model="form.name" type="text" placeholder="Full Name" class="input-field" />
-              <input
-                v-model="form.email"
-                type="email"
-                placeholder="Email Adress"
-                class="input-field"
-              />
+            <form class="text-center" @submit.prevent="handleRegister" novalidate>
+              <label for="name">
+                <input
+                  v-model="form.name"
+                  type="text"
+                  placeholder="Full Name"
+                  class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                  required
+                  :disabled="authStore.isLoading"
+                  :class="{
+                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
+                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                  }"
+                  pattern="[A-Za-z ]+"
+                />
+                <span
+                  class="mb-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"
+                >
+                  Please enter a valid name
+                </span>
+              </label>
+
+              <label for="email" class="mb-4">
+                <input
+                  v-model="form.email"
+                  type="email"
+                  placeholder="Email Adress"
+                  class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                  required
+                  :disabled="authStore.isLoading"
+                  :class="{
+                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
+                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                  }"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                />
+                <span
+                  class="mb-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"
+                >
+                  Please enter a valid email address
+                </span>
+              </label>
+
               <div class="relative">
                 <input
                   v-model="form.password"
                   :type="showPasswordField ? 'text' : 'password'"
                   placeholder="Password"
-                  class="input-field"
+                  class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                  required
+                  :disabled="authStore.isLoading"
+                  :class="{
+                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
+                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                  }"
+                  pattern=".{6,}"
                 />
+                <span
+                  class="mb-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"
+                >
+                  Please enter at least 6 characters
+                </span>
                 <button
                   type="button"
                   @click="showPasswordField = !showPasswordField"
@@ -70,13 +119,26 @@
                   </svg>
                 </button>
               </div>
+
               <div class="relative">
                 <input
                   v-model="form.password_confirmation"
                   :type="showPasswordField ? 'text' : 'password'"
-                  placeholder="Password"
-                  class="input-field"
+                  placeholder="Password Confirmation"
+                  class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                  required
+                  :disabled="authStore.isLoading"
+                  :class="{
+                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
+                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                  }"
+                  pattern=".{6,}"
                 />
+                <span
+                  class="mb-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"
+                >
+                  Please enter at least 6 characters
+                </span>
                 <button
                   type="button"
                   @click="showPasswordField = !showPasswordField"
@@ -120,13 +182,29 @@
                   </svg>
                 </button>
               </div>
+
               <div class="flex flex-col space-y-4 pt-4">
-                <button type="submit" class="btn-primary">Register</button>
+                <button
+                  type="submit"
+                  :disabled="isRegisterButtonDisabled"
+                  :class="{
+                    'py-2 px-5 pointer-events-none flex justify-center bg-blue-300 text-white rounded-lg':
+                      isRegisterButtonDisabled,
+                    'btn-primary': !isRegisterButtonDisabled
+                  }"
+                >
+                  <template v-if="authStore.isLoading">
+                    <div class="spinner"></div>
+                  </template>
+                  <template v-else> Register </template>
+                </button>
               </div>
+
               <div class="flex items-center justify-center pt-8">
                 <button
                   @click="router.push('/login')"
                   class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
+                  :class="{ 'text-gray-400 pointer-events-none': authStore.isLoading }"
                 >
                   Back to Login
                 </button>
@@ -143,7 +221,7 @@
 import { useAuthStore } from '@/stores/useAuthStore'
 import { Vue3Lottie } from 'vue3-lottie'
 import RegisterAnimation from '../lottie/RegisterAnimation.json'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const form = ref({
@@ -159,6 +237,16 @@ const showPasswordField = ref(false)
 
 const authStore = useAuthStore()
 
+const isRegisterButtonDisabled = computed(() => {
+  return (
+    !form.value.name ||
+    !form.value.email ||
+    form.value.password.length < 6 ||
+    form.value.password !== form.value.password_confirmation ||
+    authStore.isLoading
+  )
+})
+
 const handleRegister = async () => {
   authStore.register({
     name: form.value.name,
@@ -171,10 +259,28 @@ const handleRegister = async () => {
 
 <style lang="scss" scoped>
 .input-field {
-  @apply w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500;
+  @apply w-full mb-2 px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500;
 }
 
 .btn-primary {
   @apply w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
