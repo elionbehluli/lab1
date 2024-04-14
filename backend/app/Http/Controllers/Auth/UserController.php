@@ -62,7 +62,9 @@ class UserController extends Controller
     }
     public function logout()
     {
-        return 'logouttest';
+        auth()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
     public function forgotPassword()
