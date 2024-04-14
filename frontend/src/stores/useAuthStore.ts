@@ -50,7 +50,8 @@ export const useAuthStore = defineStore('auth', {
 
     async logout() {
       try {
-        await useApiFetch('POST', 'auth/logout')
+        const { data } = await useApiFetch<DeleteAPIResponse>('POST', 'auth/logout')
+        console.log(data.message) // TODO: implement snackbar
         this.user = {} as User
         this.jwtToken = ''
         cookies.remove('jwtToken')
