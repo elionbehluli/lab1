@@ -1,27 +1,44 @@
 import { useApiFetch } from '@/composables/useApiFetch'
 import router from '@/router'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
-export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User | null>(null)
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    user: {} as User
+  }),
+  getters: {
+    isLoggedIn: (state) => !!state.user
+  },
+  actions: {
+    async login(credentials: LoginCredentials) {
+      try {
+        const { data } = await useApiFetch<LoginAPIResponse>('POST', 'auth/login', {
+          data: credentials
+        })
 
-  async function login(credentials: Credentials) {
-    try {
-      const data = await useApiFetch('POST', 'auth/login', {
-        data: credentials
-      })
-
-      if (data.data) {
-        router.push('/')
+        if (data.user) {
+          this.user = data.user
+          router.push('/')
+        }
+      } catch (error) {
+        console.error(error)
       }
-    } catch (error) {
-      console.error(error)
-    }
-  }
+    },
 
-  return {
-    user,
-    login
-  }
+    async register(credentials: RegistrationCredentials) {
+      try {
+        const { data } = await useApiFetch<RegisterAPIResponse>('POST', 'auth/register', {
+          data: credentials
+        })
+
+        if (data.user) {
+          this.user = data.user
+          router.push('/')
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  },
+  persist: true
 })
