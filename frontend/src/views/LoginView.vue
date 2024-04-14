@@ -10,26 +10,62 @@
           </div>
         </div>
         <div class="p-6 flex flex-col items-center justify-center">
-          <h1 class="text-3xl font-semibold mb-8">Login to your Account</h1>
+          <h1
+            class="text-3xl font-semibold mb-8 pointer-events-none"
+            :class="{ 'text-gray-400': authStore.isLoading }"
+          >
+            Login to your Account
+          </h1>
           <div class="w-full max-w-md">
-            <form class="text-center" @submit.prevent="handleLogin">
-              <input
-                v-model="form.email"
-                type="email"
-                placeholder="Email Adress"
-                class="input-field"
-              />
+            <form class="text-center" @submit.prevent="handleLogin" novalidate>
+              <label for="email" class="mb-4">
+                <input
+                  v-model="form.email"
+                  type="email"
+                  placeholder="Email Adress"
+                  class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                  required
+                  :disabled="authStore.isLoading"
+                  :class="{
+                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
+                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                  }"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                />
+                <span
+                  class="mb-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"
+                >
+                  Please enter a valid email address
+                </span>
+              </label>
+
               <div class="relative">
                 <input
                   v-model="form.password"
                   :type="showPasswordField ? 'text' : 'password'"
                   placeholder="Password"
-                  class="input-field"
+                  class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                  required
+                  :disabled="authStore.isLoading"
+                  :class="{
+                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
+                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                  }"
+                  pattern=".{6,}"
                 />
+                <span
+                  class="mb-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"
+                >
+                  Please enter at least 6 characters
+                </span>
                 <button
                   type="button"
                   @click="showPasswordField = !showPasswordField"
-                  class="absolute inset-y-0 right-0 flex mt-2 items-start justify-center w-10 text-gray-400 hover:text-gray-600 focus:outline-none"
+                  class="absolute inset-y-0 right-0 flex mt-2 items-start justify-center w-10 text-gray-400 focus:outline-none"
+                  :class="{
+                    'hover:text-gray-600': !authStore.isLoading
+                  }"
+                  :disabled="authStore.isLoading"
                 >
                   <svg
                     v-if="showPasswordField"
@@ -69,23 +105,50 @@
                   </svg>
                 </button>
               </div>
+
               <div class="mt-1 flex items-center justify-end">
                 <button
                   type="button"
                   @click="router.push('/forgot-password')"
-                  class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
+                  class="text-sm focus:outline-none"
+                  :class="{
+                    'text-blue-300': authStore.isLoading,
+                    'hover:text-blue-700 text-blue-500': !authStore.isLoading
+                  }"
+                  :disabled="authStore.isLoading"
                 >
                   Forgot password?
                 </button>
               </div>
+
               <div class="flex flex-col space-y-4 pt-4">
-                <button type="submit" class="btn-primary">Login</button>
+                <button
+                  type="submit"
+                  :disabled="isLoginButtonDisabled"
+                  :class="{
+                    'py-2 px-5 pointer-events-none flex justify-center bg-blue-300 text-white rounded-lg':
+                      isLoginButtonDisabled,
+                    'btn-primary': !isLoginButtonDisabled
+                  }"
+                >
+                  <template v-if="authStore.isLoading">
+                    <div class="spinner"></div>
+                  </template>
+                  <template v-else> Login </template>
+                </button>
               </div>
               <div class="flex items-center justify-center pt-8">
-                Don't have an account yet?
+                <span class="pointer-events-none" :class="{ 'text-gray-400': authStore.isLoading }">
+                  Don't have an account yet?
+                </span>
                 <button
                   @click="router.push('/register')"
-                  class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none pl-2"
+                  class="text-sm focus:outline-none pl-2"
+                  :class="{
+                    'text-blue-300': authStore.isLoading,
+                    'hover:text-blue-700 text-blue-500': !authStore.isLoading
+                  }"
+                  :disabled="authStore.isLoading"
                 >
                   Register
                 </button>
@@ -102,7 +165,7 @@
 import { useAuthStore } from '@/stores/useAuthStore'
 import { Vue3Lottie } from 'vue3-lottie'
 import LoginAnimation from '../lottie/LoginAnimation.json'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const form = ref({
@@ -116,6 +179,10 @@ const showPasswordField = ref(false)
 
 const authStore = useAuthStore()
 
+const isLoginButtonDisabled = computed(() => {
+  return !form.value.email || form.value.password.length < 6 || authStore.isLoading
+})
+
 const handleLogin = async () => {
   authStore.login({
     email: form.value.email,
@@ -126,10 +193,28 @@ const handleLogin = async () => {
 
 <style lang="scss" scoped>
 .input-field {
-  @apply w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500;
+  @apply w-full mb-2 px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500;
 }
 
 .btn-primary {
   @apply w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
