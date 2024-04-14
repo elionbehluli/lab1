@@ -5,8 +5,10 @@ import AboutView from '../views/AboutView.vue'
 import ServicesView from '@/views/ServicesView.vue'
 import CarsView from '@/views/CarsView.vue'
 import ContactView from '@/views/ContactView.vue'
+import DashboardView from '@/views/DashboardView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,12 +21,46 @@ const router = createRouter({
         { path: 'about', component: AboutView },
         { path: 'services', component: ServicesView },
         { path: 'cars', component: CarsView },
-        { path: 'contact', component: ContactView },
-        { path: 'login', component: LoginView },
-        { path: 'register', component: RegisterView }
+        { path: 'contact', component: ContactView }
       ]
+    },
+    {
+      path: '/login',
+      meta: {
+        requiresGuest: true
+      },
+      component: LoginView
+    },
+    {
+      path: '/register',
+      meta: {
+        requiresGuest: true
+      },
+      component: RegisterView
+    },
+    {
+      path: '/dashboard',
+      meta: {
+        requiresAuth: true
+      },
+      component: DashboardView
     }
   ]
+})
+
+router.beforeEach((to, _from, next) => {
+  const authStore = useAuthStore()
+
+  const requiresAuth = to.matched.some((x) => x.meta.requiresAuth)
+  const requiresGuest = to.matched.some((x) => x.meta.requiresGuest)
+
+  if (requiresAuth && !authStore.isLoggedIn) {
+    next('/')
+  } else if (requiresGuest && authStore.isLoggedIn) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router
