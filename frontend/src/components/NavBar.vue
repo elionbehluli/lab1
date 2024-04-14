@@ -34,7 +34,7 @@
           >
         </div>
 
-        <div class="flex space-x-4" v-if="!authStore.user">
+        <div class="flex space-x-4" v-if="!authStore.isLoggedIn">
           <router-link to="/login" class="text-white hover:text-gray-300">
             <button
               class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded"
@@ -50,9 +50,9 @@
           <router-link to="/login" class="text-white hover:text-gray-300">
             <button class="text-white hover:text-gray-300">Dashboard</button>
           </router-link>
-          <router-link to="/register" class="text-white hover:text-gray-300">
-            <button class="text-white hover:text-gray-300">Logout</button>
-          </router-link>
+          <div class="text-white hover:text-gray-300">
+            <button @click="authStore.logout" class="text-white hover:text-gray-300">Logout</button>
+          </div>
         </div>
       </div>
     </div>

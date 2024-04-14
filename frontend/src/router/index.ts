@@ -45,16 +45,12 @@ router.beforeEach((to, _from, next) => {
 
   const requiresAuth = to.matched.some((x) => x.meta.requiresAuth)
   const requiresGuest = to.matched.some((x) => x.meta.requiresGuest)
-  console.log(requiresAuth, requiresGuest, authStore.isLoggedIn)
 
   if (requiresAuth && !authStore.isLoggedIn) {
-    console.log('a')
     next('/')
   } else if (requiresGuest && authStore.isLoggedIn) {
-    console.log('b')
     next('/')
   } else {
-    console.log('c')
     next()
   }
 })

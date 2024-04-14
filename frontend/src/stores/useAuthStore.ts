@@ -1,13 +1,17 @@
 import { useApiFetch } from '@/composables/useApiFetch'
 import router from '@/router'
 import { defineStore } from 'pinia'
+import { useCookies } from '@vueuse/integrations/useCookies'
+
+const cookies = useCookies(['jwtToken'])
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: {} as User
+    user: {} as User,
+    jwtToken: ''
   }),
   getters: {
-    isLoggedIn: (state) => !!state.user
+    isLoggedIn: (state) => !!state.user.id
   },
   actions: {
     async login(credentials: LoginCredentials) {
@@ -16,8 +20,10 @@ export const useAuthStore = defineStore('auth', {
           data: credentials
         })
 
-        if (data.user) {
+        if (data.user && data.token) {
           this.user = data.user
+          this.jwtToken = data.token
+          cookies.set('jwtToken', data.token)
           router.push('/')
         }
       } catch (error) {
@@ -31,13 +37,31 @@ export const useAuthStore = defineStore('auth', {
           data: credentials
         })
 
-        if (data.user) {
+        if (data.user && data.token) {
           this.user = data.user
+          this.jwtToken = data.token
+          cookies.set('jwtToken', data.token)
           router.push('/')
         }
       } catch (error) {
         console.error(error)
       }
+    },
+
+    async logout() {
+      try {
+        await useApiFetch('POST', 'auth/logout')
+        this.user = {} as User
+        this.jwtToken = ''
+        cookies.remove('jwtToken')
+        router.push('/')
+      } catch (error) {
+        console.error(error)
+      }
+    },
+
+    setJWTTokenFromCookie(cookie: string) {
+      this.jwtToken = cookie
     }
   },
   persist: true

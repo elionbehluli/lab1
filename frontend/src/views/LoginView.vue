@@ -10,39 +10,40 @@
           </div>
         </div>
         <div class="p-6 flex flex-col items-center justify-center">
-          <h1 class="text-3xl font-semibold mb-8">Kyqu ne Llogari</h1>
+          <h1 class="text-3xl font-semibold mb-8">Login to your Account</h1>
           <div class="w-full max-w-md">
             <form class="text-center" @submit.prevent="handleLogin">
               <input
                 v-model="form.email"
                 type="email"
-                placeholder="Email Adresa"
+                placeholder="Email Adress"
                 class="input-field"
               />
               <input
                 v-model="form.password"
                 :type="showPasswordField ? 'text' : 'password'"
-                placeholder="Fjalekalimi"
+                placeholder="Password"
                 class="input-field"
               />
               <div class="mt-1 flex items-center justify-end">
                 <button
+                  type="button"
                   @click="router.push('/forgot-password')"
                   class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
                 >
-                  Keni harruar fjalëkalimin?
+                  Forgot password?
                 </button>
               </div>
               <div class="flex flex-col space-y-4 pt-4">
-                <button type="submit" class="btn-primary">Kyqu</button>
+                <button type="submit" class="btn-primary">Login</button>
               </div>
               <div class="flex items-center justify-center pt-8">
-                Nuk keni llogari te hapur?
+                Don't have an account yet?
                 <button
                   @click="router.push('/register')"
-                  class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
+                  class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none pl-2"
                 >
-                  Regjistrohu
+                  Register
                 </button>
               </div>
             </form>
