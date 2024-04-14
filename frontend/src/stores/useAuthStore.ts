@@ -102,13 +102,11 @@ export const useAuthStore = defineStore('auth', {
 
         const { data } = await useApiFetch<DeleteAPIResponse>('POST', 'auth/logout')
 
-        if (data.message) {
-          this.callSnackBar({
-            message: 'Successfully logged out',
-            type: 'info',
-            duration: 3000
-          })
-        }
+        this.callSnackBar({
+          message: data.message ? data.message : 'Successfully logged out',
+          type: 'info',
+          duration: 3000
+        })
 
         this.user = {} as User
         this.jwtToken = ''
