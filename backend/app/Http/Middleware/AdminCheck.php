@@ -24,6 +24,8 @@ class AdminCheck
         }
 
         // If the user is not an admin, return a 403 Forbidden response
-        return response()->json(['message' => 'Forbidden'], 403);
+        return response()->json([
+            'message' => 'Access denied: You must have admin privileges to perform this action.'
+        ], 403);
     }
 }
