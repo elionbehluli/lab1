@@ -19,3 +19,11 @@ type RegistrationCredentials = {
   password: string
   password_confirmation: string
 }
+
+type ResetPasswordParams = {
+  token: string
+  email: string
+  password: string
+  password_confirmation: string
+}
+
