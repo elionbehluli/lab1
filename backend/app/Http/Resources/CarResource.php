@@ -17,6 +17,7 @@ class CarResource extends JsonResource
         return [
             'id' => $this->id,
             'brand_id' => $this->brand_id,
+            'brand_name' => $this->brand ? $this->brand->name : null,
             'model' => $this->model,
             'color' => $this->color,
             'year' => $this->year,
@@ -28,6 +29,7 @@ class CarResource extends JsonResource
             'number_of_seats' => $this->number_of_seats,
             'body_type' => $this->body_type,
             'features' => json_decode($this->features, true), // Convert JSON string to array
+            'images' => CarImageResource::collection($this->images),
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
