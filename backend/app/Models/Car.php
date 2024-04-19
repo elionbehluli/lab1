@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Brand;
+use App\Models\CarImage;
 
 class Car extends Model
 {
@@ -28,5 +29,10 @@ class Car extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(CarImage::class);
     }
 }
