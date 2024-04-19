@@ -1,32 +1,4 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
-<<<<<<< HEAD
-<<<<<<< HEAD
-@import 'tailwindcss/utilities';
-=======
 @import 'tailwindcss/utilities';
 
-.page-link,
-.button {
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.page-link:hover,
-.button:hover {
-  color: white;
-  border-radius: 8px;
-  background-color: rgb(59 130 246);
-  padding: 0.1em 0.5em;
-}
-
-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
->>>>>>> 3e8b5db (feat: added on hover highlight for buttons)
-=======
-@import 'tailwindcss/utilities';
->>>>>>> f34c64e (feat: merged with develop)

@@ -46,6 +46,7 @@
             <button class="py-1 px-2">Register</button>
           </router-link>
         </div>
+
         <div class="flex space-x-4" v-else>
           <router-link to="/dashboard" class="text-white hover:text-gray-300">
             <button class="text-white hover:text-gray-300">Dashboard</button>
@@ -64,6 +65,7 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 const authStore = useAuthStore()
 </script>
+
 <style>
 .page-link,
 .button {
