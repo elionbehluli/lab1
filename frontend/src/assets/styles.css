@@ -1,6 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 <<<<<<< HEAD
+<<<<<<< HEAD
 @import 'tailwindcss/utilities';
 =======
 @import 'tailwindcss/utilities';
@@ -26,3 +27,6 @@ button {
   transition: all 0.3s ease;
 }
 >>>>>>> 3e8b5db (feat: added on hover highlight for buttons)
+=======
+@import 'tailwindcss/utilities';
+>>>>>>> f34c64e (feat: merged with develop)

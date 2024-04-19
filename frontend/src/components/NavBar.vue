@@ -64,7 +64,6 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 const authStore = useAuthStore()
 </script>
-
 <style>
 .page-link,
 .button {
