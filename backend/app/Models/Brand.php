@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Car;
+use Illuminate\Support\Facades\Storage;
 
 class Brand extends Model
 {
@@ -34,6 +35,13 @@ class Brand extends Model
     public function cars()
     {
         return $this->hasMany(Car::class);
+    }
+
+    public function deleteLogo($id)
+    {
+        if(Storage::disk('public')->exists($this->logo_url)){
+            Storage::disk('public')->delete($this->logo_url);
+        }
     }
 
 }
