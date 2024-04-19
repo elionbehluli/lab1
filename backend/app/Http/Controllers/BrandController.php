@@ -55,18 +55,8 @@ class BrandController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string', // Require an array field named images
-            'country_of_origin' => 'required|string', // Each file in the array should be an image and up to 10 MB
-            'logo_url' => 'file|image|max:10240',
-        ]);
-        
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-        
+       
+
         // Find the car record using the provided ID
         $brand = Brand::findOrFail($id);
 
@@ -80,6 +70,18 @@ class BrandController extends Controller
             if ($value === null || $value === '') {
                 $requestData[$key] = $brand->$key;
             }
+        }
+        
+        $validator = Validator::make($requestData, [
+            'name' => 'sometimes|string', // Require an array field named images
+            'country_of_origin' => 'sometimes|string', // Each file in the array should be an image and up to 10 MB
+            'logo_url' => 'file|image|max:10240',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         $logoFile = $request->file('logo_url');
