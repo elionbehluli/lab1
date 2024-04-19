@@ -100,52 +100,45 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      // Sample featured cars data
-      featuredCars: [
-        {
-          id: 1,
-          name: 'Car 1',
-          image: 'car1.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        },
-        {
-          id: 2,
-          name: 'Car 2',
-          image: 'car2.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        },
-        {
-          id: 3,
-          name: 'Car 3',
-          image: 'car3.jpg',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-        }
-      ],
-      // Sample reviews data
-      reviews: [
-        {
-          id: 1,
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          author: 'John Doe'
-        },
-        {
-          id: 2,
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          author: 'Jane Doe'
-        },
-        {
-          id: 3,
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          author: 'Alex Smith'
-        }
-      ]
-    }
+<script setup lang="ts">
+const featuredCars = ref([
+  {
+    id: 1,
+    name: 'Car 1',
+    image: 'car1.jpg',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+  },
+  {
+    id: 2,
+    name: 'Car 2',
+    image: 'car2.jpg',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+  },
+  {
+    id: 3,
+    name: 'Car 3',
+    image: 'car3.jpg',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   }
-}
+])
+// Sample reviews data
+const reviews = ref([
+  {
+    id: 1,
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    author: 'John Doe'
+  },
+  {
+    id: 2,
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    author: 'Jane Doe'
+  },
+  {
+    id: 3,
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    author: 'Alex Smith'
+  }
+])
 </script>
 
 <style scoped>
