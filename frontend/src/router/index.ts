@@ -11,6 +11,7 @@ import RegisterView from '@/views/RegisterView.vue'
 import { useAuthStore } from '@/stores/useAuthStore'
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import CarDetail from '@/views/CarDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,6 +61,11 @@ const router = createRouter({
         requiresAuth: false
       },
       component: ResetPasswordView
+    },
+    {
+      path: '/cars/:id',
+      name: 'CarDetail',
+      component: CarDetail
     }
   ]
 })
