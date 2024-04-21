@@ -6,3 +6,11 @@ interface APIResponse {
 interface DeleteAPIResponse {
   message: string
 }
+
+interface CarResponse {
+  data: Car[]
+}
+
+interface ShowCarResponse {
+  data: Car
+}
