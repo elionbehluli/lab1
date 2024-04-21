@@ -28,8 +28,11 @@ class CarResource extends JsonResource
             'engine_size' => $this->engine_size,
             'number_of_seats' => $this->number_of_seats,
             'body_type' => $this->body_type,
-            'features' => json_decode($this->features, true), // Convert JSON string to array
-            'images' => CarImageResource::collection($this->images),
+            'features' => json_decode($this->features, true),
+            'images' => $this->images->isNotEmpty()
+                ? CarImageResource::collection($this->images)
+                : [['image_url' => asset('storage/img/default_car.jpg')]],
+            'featured' => $this->featured,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];
