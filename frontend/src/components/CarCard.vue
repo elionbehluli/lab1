@@ -1,11 +1,15 @@
 <template>
-  <div class="bg-white shadow-lg rounded-lg overflow-hidden" @click="goToCar(car.id)">
+  <div class="shadow-lg rounded-lg overflow-hidden hover:transform hover:scale-105 transition duration-300 ease-in-out" @click="goToCar(car.id)">
     <img :src="car.images[0].image_url" :alt="car.model" class="w-full h-56 object-cover" />
     <div class="p-4">
-      <h2 class="text-xl font-semibold text-gray-800">{{ car.model }}</h2>
-      <p class="text-gray-600">{{ car.brand_name }}</p>
-      <div class="mt-4 flex justify-between items-center">
-        <span class="font-bold text-xl text-gray-800">{{ car.price }}</span>
+      <div class="rounded-lg text-white bg-gray-800 flex justify-between mb-2">
+        <div class="px-3 py-1 rounded-full inline-block">{{ car.brand_name }}</div>
+        <div class="px-3 py-1 rounded-full inline-block">{{ car.model }}</div>
+      </div>
+      <div class="mt-2 flex justify-between items-center">
+        <span class="font-bold text-xl">{{ car.price }}€</span>
+        <span class="font-bold text-l">{{ car.mileage }}km</span>
+        <span class="font-bold text-l">{{ car.transmission_type }}</span>
       </div>
     </div>
   </div>
@@ -14,6 +18,7 @@
 <script setup lang="ts">
 import { defineProps, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
+import { Car } from '@/types/Car'
 
 defineProps({
   car: {
