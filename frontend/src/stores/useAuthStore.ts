@@ -118,6 +118,7 @@ export const useAuthStore = defineStore('auth', {
         this.isLoading = false
       }
     },
+
     async forgotPassword(email: string) {
       try {
         this.isLoading = true
