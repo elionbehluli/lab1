@@ -24,6 +24,7 @@ class Car extends Model
         'number_of_seats',
         'body_type',
         'features',
+        'featured',
     ];
 
     public function brand()

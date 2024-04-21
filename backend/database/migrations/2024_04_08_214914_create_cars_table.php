@@ -25,6 +25,7 @@ return new class extends Migration
             $table->unsignedInteger('number_of_seats');
             $table->string('body_type');
             $table->json('features')->nullable();
+            $table->boolean('featured')->default(false);
             $table->timestamps();
         });
     }
