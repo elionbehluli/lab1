@@ -140,15 +140,15 @@ export const useAuthStore = defineStore('auth', {
         this.isLoading = false
       }
     },
-    async resetPassword({ email, token, password, password_confirmation}: ResetPasswordParams) {
+    async resetPassword({ email, token, password, password_confirmation }: ResetPasswordParams) {
       try {
         this.isLoading = true
-    
+
         // Send a request to your backend API to reset the password
         await useApiFetch('POST', 'auth/password/reset', {
-          data: { email, token, password, password_confirmation}
+          data: { email, token, password, password_confirmation }
         })
-    
+
         this.callSnackBar({
           message: 'Password reset successfully',
           type: 'success',
@@ -162,7 +162,7 @@ export const useAuthStore = defineStore('auth', {
         this.isLoading = false
       }
     },
-    
+
     setJWTTokenFromCookie(cookie: string) {
       this.jwtToken = cookie
     }

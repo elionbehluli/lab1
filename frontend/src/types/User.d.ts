@@ -26,4 +26,3 @@ type ResetPasswordParams = {
   password: string
   password_confirmation: string
 }
-
