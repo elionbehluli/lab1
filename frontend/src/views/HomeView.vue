@@ -62,20 +62,20 @@ import { ref } from 'vue'
 const featuredCars = ref([
   {
     id: 1,
-    name: 'Car 1',
-    image: 'car1.jpg',
+    name: 'BMW M2 COUPÉ ',
+    image: 'src/images/car1.png',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   },
   {
     id: 2,
-    name: 'Car 2',
-    image: 'car2.jpg',
+    name: 'Mercedes-AMG G 63',
+    image: 'src/images/car2.png',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   },
   {
     id: 3,
-    name: 'Car 3',
-    image: 'car3.jpg',
+    name: 'Audi RS6',
+    image: 'src/images/car3.png',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
   }
 ])
