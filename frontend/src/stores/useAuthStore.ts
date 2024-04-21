@@ -123,7 +123,6 @@ export const useAuthStore = defineStore('auth', {
       try {
         this.isLoading = true
 
-        // Send a request to your backend API to initiate the password reset process
         await useApiFetch('POST', 'auth/password/forgot', {
           data: { email }
         })
@@ -133,7 +132,7 @@ export const useAuthStore = defineStore('auth', {
           type: 'success',
           duration: 5000
         })
-        // Redirect to a page indicating that the password reset link has been sent
+
         router.push('/forgot-password')
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
@@ -141,11 +140,11 @@ export const useAuthStore = defineStore('auth', {
         this.isLoading = false
       }
     },
+
     async resetPassword({ email, token, password, password_confirmation }: ResetPasswordParams) {
       try {
         this.isLoading = true
 
-        // Send a request to your backend API to reset the password
         await useApiFetch('POST', 'auth/password/reset', {
           data: { email, token, password, password_confirmation }
         })
@@ -155,7 +154,7 @@ export const useAuthStore = defineStore('auth', {
           type: 'success',
           duration: 5000
         })
-        // Redirect to a login page or any other appropriate page
+
         router.push('/login')
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)

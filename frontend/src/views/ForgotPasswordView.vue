@@ -35,12 +35,12 @@ import { useAuthStore } from '@/stores/useAuthStore'
 
 const email = ref('')
 const isLoading = ref(false)
-const authStore = useAuthStore()
+const { forgotPassword } = useAuthStore()
 
 const handleForgotPassword = async () => {
   isLoading.value = true
   try {
-    await authStore.forgotPassword(email.value)
+    await forgotPassword(email.value)
     // Optionally, you can redirect the user to a page indicating that the password reset link has been sent
     // router.push('/password-reset-sent')
   } catch (error) {

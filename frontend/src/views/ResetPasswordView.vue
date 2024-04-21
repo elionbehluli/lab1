@@ -45,13 +45,14 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore'
 
+const { resetPassword } = useAuthStore()
+
 const router = useRouter()
 const email = ref('')
 const token = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const isLoading = ref(false)
-const authStore = useAuthStore()
 
 // Extract email and token from URL params
 const params = new URLSearchParams(window.location.search)
@@ -64,7 +65,7 @@ const handleResetPassword = async () => {
     if (password.value !== confirmPassword.value) {
       throw new Error('Passwords do not match')
     }
-    await authStore.resetPassword({
+    await resetPassword({
       email: email.value,
       token: token.value,
       password: password.value,

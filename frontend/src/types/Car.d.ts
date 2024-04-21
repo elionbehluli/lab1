@@ -13,6 +13,7 @@ interface Car {
   number_of_seats: number
   body_type: string
   features: Record<string>
+  featured: boolean
   images: Image[]
   created_at: Date
   updated_at: Date
@@ -29,6 +30,7 @@ interface CarRequest {
   fuel_type: string
   engine_size: number
   number_of_seats: number
+  featured: boolean
   body_type: string
   features: Record<string>
 }

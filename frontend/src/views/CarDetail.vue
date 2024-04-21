@@ -14,12 +14,12 @@ import { useCarStore } from '@/stores/useCarStore'
 
 const car = ref<Car>()
 const route = useRoute()
-const carStore = useCarStore()
+const { show } = useCarStore()
 
 onMounted(async () => {
   const carId = route.params.id
   try {
-    const response = await carStore.show(parseInt(carId as string))
+    const response = await show(parseInt(carId as string))
     if (response) {
       car.value = response
     }

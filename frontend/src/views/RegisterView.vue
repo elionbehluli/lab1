@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="p-6 flex flex-col items-center justify-center">
-          <h1 class="text-3xl font-semibold mb-8" :class="{ 'text-gray-400': authStore.isLoading }">
+          <h1 class="text-3xl font-semibold mb-8" :class="{ 'text-gray-400': isLoading }">
             Register a new Account
           </h1>
           <div class="w-full max-w-md">
@@ -22,10 +22,10 @@
                   placeholder="Full Name"
                   class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   required
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                   :class="{
-                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
-                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                    'placeholder-gray-300 border-gray-300 text-gray-400': isLoading,
+                    'placeholder-gray-400 border-gray-500': !isLoading
                   }"
                   pattern="[A-Za-z ]+"
                 />
@@ -43,10 +43,10 @@
                   placeholder="Email Adress"
                   class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   required
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                   :class="{
-                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
-                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                    'placeholder-gray-300 border-gray-300 text-gray-400': isLoading,
+                    'placeholder-gray-400 border-gray-500': !isLoading
                   }"
                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 />
@@ -64,10 +64,10 @@
                   placeholder="Password"
                   class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   required
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                   :class="{
-                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
-                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                    'placeholder-gray-300 border-gray-300 text-gray-400': isLoading,
+                    'placeholder-gray-400 border-gray-500': !isLoading
                   }"
                   pattern=".{6,}"
                 />
@@ -127,10 +127,10 @@
                   placeholder="Password Confirmation"
                   class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   required
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                   :class="{
-                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
-                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                    'placeholder-gray-300 border-gray-300 text-gray-400': isLoading,
+                    'placeholder-gray-400 border-gray-500': !isLoading
                   }"
                   pattern=".{6,}"
                 />
@@ -193,7 +193,7 @@
                     'btn-primary': !isRegisterButtonDisabled
                   }"
                 >
-                  <template v-if="authStore.isLoading">
+                  <template v-if="isLoading">
                     <div class="spinner"></div>
                   </template>
                   <template v-else> Register </template>
@@ -204,7 +204,7 @@
                 <button
                   @click="router.push('/login')"
                   class="text-sm text-blue-500 hover:text-blue-700 focus:outline-none"
-                  :class="{ 'text-gray-400 pointer-events-none': authStore.isLoading }"
+                  :class="{ 'text-gray-400 pointer-events-none': isLoading }"
                 >
                   Back to Login
                 </button>
@@ -224,6 +224,8 @@ import RegisterAnimation from '../lottie/RegisterAnimation.json'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+const { isLoading, register } = useAuthStore()
+
 const form = ref({
   name: '',
   email: '',
@@ -235,20 +237,18 @@ const router = useRouter()
 
 const showPasswordField = ref(false)
 
-const authStore = useAuthStore()
-
 const isRegisterButtonDisabled = computed(() => {
   return (
     !form.value.name ||
     !form.value.email ||
     form.value.password.length < 6 ||
     form.value.password !== form.value.password_confirmation ||
-    authStore.isLoading
+    isLoading
   )
 })
 
 const handleRegister = async () => {
-  authStore.register({
+  register({
     name: form.value.name,
     email: form.value.email,
     password: form.value.password,

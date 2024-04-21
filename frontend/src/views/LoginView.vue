@@ -12,7 +12,7 @@
         <div class="p-6 flex flex-col items-center justify-center">
           <h1
             class="text-3xl font-semibold mb-8 pointer-events-none"
-            :class="{ 'text-gray-400': authStore.isLoading }"
+            :class="{ 'text-gray-400': isLoading }"
           >
             Login to your Account
           </h1>
@@ -25,10 +25,10 @@
                   placeholder="Email Adress"
                   class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   required
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                   :class="{
-                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
-                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                    'placeholder-gray-300 border-gray-300 text-gray-400': isLoading,
+                    'placeholder-gray-400 border-gray-500': !isLoading
                   }"
                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 />
@@ -46,10 +46,10 @@
                   placeholder="Password"
                   class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
                   required
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                   :class="{
-                    'placeholder-gray-300 border-gray-300 text-gray-400': authStore.isLoading,
-                    'placeholder-gray-400 border-gray-500': !authStore.isLoading
+                    'placeholder-gray-300 border-gray-300 text-gray-400': isLoading,
+                    'placeholder-gray-400 border-gray-500': !isLoading
                   }"
                   pattern=".{6,}"
                 />
@@ -63,9 +63,9 @@
                   @click="showPasswordField = !showPasswordField"
                   class="absolute inset-y-0 right-0 flex mt-2 items-start justify-center w-10 text-gray-400 focus:outline-none"
                   :class="{
-                    'hover:text-gray-600': !authStore.isLoading
+                    'hover:text-gray-600': !isLoading
                   }"
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                 >
                   <svg
                     v-if="showPasswordField"
@@ -112,10 +112,10 @@
                   @click="router.push('/forgot-password')"
                   class="text-sm focus:outline-none"
                   :class="{
-                    'text-blue-300': authStore.isLoading,
-                    'hover:text-blue-700 text-blue-500': !authStore.isLoading
+                    'text-blue-300': isLoading,
+                    'hover:text-blue-700 text-blue-500': !isLoading
                   }"
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                 >
                   Forgot password?
                 </button>
@@ -131,24 +131,24 @@
                     'btn-primary': !isLoginButtonDisabled
                   }"
                 >
-                  <template v-if="authStore.isLoading">
+                  <template v-if="isLoading">
                     <div class="spinner"></div>
                   </template>
                   <template v-else> Login </template>
                 </button>
               </div>
               <div class="flex items-center justify-center pt-8">
-                <span class="pointer-events-none" :class="{ 'text-gray-400': authStore.isLoading }">
+                <span class="pointer-events-none" :class="{ 'text-gray-400': isLoading }">
                   Don't have an account yet?
                 </span>
                 <button
                   @click="router.push('/register')"
                   class="text-sm focus:outline-none pl-2"
                   :class="{
-                    'text-blue-300': authStore.isLoading,
-                    'hover:text-blue-700 text-blue-500': !authStore.isLoading
+                    'text-blue-300': isLoading,
+                    'hover:text-blue-700 text-blue-500': !isLoading
                   }"
-                  :disabled="authStore.isLoading"
+                  :disabled="isLoading"
                 >
                   Register
                 </button>
@@ -168,6 +168,8 @@ import LoginAnimation from '../lottie/LoginAnimation.json'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+const { isLoading, login } = useAuthStore()
+
 const form = ref({
   email: '',
   password: ''
@@ -177,14 +179,12 @@ const router = useRouter()
 
 const showPasswordField = ref(false)
 
-const authStore = useAuthStore()
-
 const isLoginButtonDisabled = computed(() => {
-  return !form.value.email || form.value.password.length < 6 || authStore.isLoading
+  return !form.value.email || form.value.password.length < 6 || isLoading
 })
 
 const handleLogin = async () => {
-  authStore.login({
+  login({
     email: form.value.email,
     password: form.value.password
   })

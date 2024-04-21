@@ -4,22 +4,13 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-gray-800 mb-6">Featured Cars</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
+          <CarCard
             v-for="(car, index) in featuredCars"
             :key="index"
+            :car="car"
             class="bg-white shadow-md rounded-lg overflow-hidden"
           >
-            <img :src="car.image" :alt="car.name" class="w-full h-48 object-cover" />
-            <div class="p-4">
-              <h3 class="text-lg font-semibold text-gray-800">{{ car.name }}</h3>
-              <p class="text-sm text-gray-600">{{ car.description }}</p>
-              <router-link
-                :to="'/cars/' + car.id"
-                class="mt-2 block text-blue-500 hover:underline view-details-btn"
-                >View Details</router-link
-              >
-            </div>
-          </div>
+          </CarCard>
         </div>
       </div>
     </section>
@@ -58,27 +49,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useCarStore } from '@/stores/useCarStore'
+import CarCard from '@/components/CarCard.vue'
 
-const featuredCars = ref([
-  {
-    id: 1,
-    name: 'BMW M2 COUPÉ ',
-    image: 'src/images/car1.png',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-  },
-  {
-    id: 2,
-    name: 'Mercedes-AMG G 63',
-    image: 'src/images/car2.png',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-  },
-  {
-    id: 3,
-    name: 'Audi RS6',
-    image: 'src/images/car3.png',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-  }
-])
+const { cars } = useCarStore()
+const featuredCars = cars.filter((car) => car.featured)
 
 const reviews = ref([
   {

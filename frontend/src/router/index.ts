@@ -1,30 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
-import AboutView from '../views/AboutView.vue'
-import ServicesView from '@/views/ServicesView.vue'
-import CarsView from '@/views/CarsView.vue'
-import ContactView from '@/views/ContactView.vue'
-import DashboardView from '@/views/DashboardView.vue'
-import LoginView from '@/views/LoginView.vue'
-import RegisterView from '@/views/RegisterView.vue'
 import { useAuthStore } from '@/stores/useAuthStore'
-import ForgotPasswordView from '@/views/ForgotPasswordView.vue'
-import ResetPasswordView from '@/views/ResetPasswordView.vue'
-import CarDetail from '@/views/CarDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      component: DefaultLayout,
+      component: import('@/layouts/DefaultLayout.vue'),
       children: [
-        { path: '/', component: HomeView },
-        { path: 'about', component: AboutView },
-        { path: 'services', component: ServicesView },
-        { path: 'cars', component: CarsView },
-        { path: 'contact', component: ContactView }
+        { path: '/', component: import('@/views/HomeView.vue') },
+        { path: 'about', component: import('@/views/AboutView.vue') },
+        { path: 'services', component: import('@/views/ServicesView.vue') },
+        { path: 'cars', component: import('@/views/CarsView.vue') },
+        { path: 'contact', component: import('@/views/ContactView.vue') },
+        {
+          path: '/cars/:id',
+          name: 'CarDetail',
+          component: import('@/views/CarDetail.vue')
+        }
       ]
     },
     {
@@ -32,40 +25,35 @@ const router = createRouter({
       meta: {
         requiresGuest: true
       },
-      component: LoginView
+      component: import('@/views/LoginView.vue')
     },
     {
       path: '/register',
       meta: {
         requiresGuest: true
       },
-      component: RegisterView
+      component: import('@/views/RegisterView.vue')
     },
     {
       path: '/dashboard',
       meta: {
         requiresAuth: true
       },
-      component: DashboardView
+      component: import('@/views/DashboardView.vue')
     },
     {
       path: '/forgot-password',
       meta: {
         requiresAuth: false
       },
-      component: ForgotPasswordView
+      component: import('@/views/ForgotPasswordView.vue')
     },
     {
       path: '/reset-password',
       meta: {
         requiresAuth: false
       },
-      component: ResetPasswordView
-    },
-    {
-      path: '/cars/:id',
-      name: 'CarDetail',
-      component: CarDetail
+      component: import('@/views/ResetPasswordView.vue')
     }
   ]
 })
