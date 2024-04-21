@@ -36,18 +36,3 @@
     </footer>
   </div>
 </template>
-<style scoped>
-.view-details-btn {
-  background-color: #4a90e2;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 4px;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.view-details-btn:hover {
-  background-color: #3579dc;
-}
-</style>
