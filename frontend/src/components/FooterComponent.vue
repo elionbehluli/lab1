@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <footer class="bg-gray-800 py-12 text-white">
+  <div class="flex flex-col min-h-screen">
+    <footer class="bg-gray-800 py-12 text-white mt-auto">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
@@ -36,3 +36,15 @@
     </footer>
   </div>
 </template>
+
+<style>
+html,
+body {
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+</style>
