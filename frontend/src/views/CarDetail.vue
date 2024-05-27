@@ -78,7 +78,10 @@ const handleDeletion = async () => {
 
 const handleEdit = async (editedCar: Car) => {
   try {
-    const response = await carStore.update(editedCar.id, editedCar) as Car;
+    console.log(editedCar.engine_size);
+    console.log(editedCar.features);
+    editedCar.features
+    const response = await update(editedCar.id, editedCar) as Car|any;
     if (response) {
       car.value = response;
       showEditForm.value = false;
