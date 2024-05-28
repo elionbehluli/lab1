@@ -18,7 +18,6 @@
 <script setup lang="ts">
 import { defineProps, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
-import { Car } from '@/types/Car'
 
 defineProps({
   car: {

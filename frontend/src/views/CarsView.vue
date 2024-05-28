@@ -2,10 +2,10 @@
   <div class="m-20">
     <h1 class="mb-10 text-4xl font-bold text-gray-800">CARS</h1>
     <div class="flex mb-4">
-      <button @click="toggleSortOrder('price')" :class="{ 'bg-gray-800': sortCriterion === 'price', 'bg-gray-800': sortCriterion !== 'price' }" class="px-4 py-2 text-white font-semibold rounded hover:bg-blue-900 focus:outline-none focus:bg-blue-900">
+      <button @click="toggleSortOrder('price')" :class="{ 'bg-gray-800': sortCriterion === 'price'}" class="px-4 py-2 text-white font-semibold rounded hover:bg-blue-900 focus:outline-none focus:bg-blue-900">
         {{ sortButtonText('price') }}
       </button>
-      <button @click="toggleSortOrder('mileage')" :class="{ 'bg-gray-800': sortCriterion === 'mileage', 'bg-gray-800': sortCriterion !== 'mileage' }" class="px-4 py-2 ml-4 text-white font-semibold rounded hover:bg-blue-900 focus:outline-none focus:bg-blue-900">
+      <button @click="toggleSortOrder('mileage')" :class="{ 'bg-gray-800': sortCriterion === 'mileage' }" class="px-4 py-2 ml-4 text-white font-semibold rounded hover:bg-blue-900 focus:outline-none focus:bg-blue-900">
         {{ sortButtonText('mileage') }}
       </button>
     </div>
@@ -20,7 +20,6 @@ import CarCard from '@/components/CarCard.vue'
 import { useCarStore } from '@/stores/useCarStore'
 import { ref, computed } from 'vue'
 import { useSorted } from '@vueuse/core'
-import { Car } from '@/types/Car'
 
 const { cars } = useCarStore()
 const cardWidth = 'calc(25% - 10px)'

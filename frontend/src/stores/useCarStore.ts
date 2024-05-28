@@ -74,8 +74,18 @@ export const useCarStore = defineStore('car', {
 
     async update(id: number, body: CarRequest) {
       try {
+        // Ensure features is a JSON string
+        const bodyToSend = {
+          ...body,
+          features: JSON.stringify(body.features),
+        };
+        console.log(bodyToSend.features);
+
         const { data } = await useApiFetch<CarResponse>('PUT', `cars/${id}`, {
-          data: body
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: bodyToSend
         })
 
         if (data.data) {

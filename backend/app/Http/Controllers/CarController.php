@@ -10,6 +10,7 @@ use App\Http\Requests\Cars\CarStoreRequest;
 use App\Http\Requests\Cars\CarUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -65,6 +66,12 @@ class CarController extends Controller
     public function destroy($id): bool
     {
         $car = Car::findOrFail($id);
+
+        // Delete the photo folder if it exists
+        $photoFolder = "public/car_images/{$car->id}";
+        if (Storage::exists($photoFolder)) {
+            Storage::deleteDirectory($photoFolder);
+        }
 
         return $car->delete();
     }

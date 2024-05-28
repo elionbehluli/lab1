@@ -15,7 +15,8 @@ export const useAuthStore = defineStore('auth', {
     isLoading: false
   }),
   getters: {
-    isLoggedIn: (state) => !!state.user.id
+    isLoggedIn: (state) => !!state.user.id,
+    isAdmin: (state) => state.user.role === 'admin'
   },
   actions: {
     catchError(error: unknown | Error | AxiosError) {
