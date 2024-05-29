@@ -33,6 +33,7 @@ interface CarRequest {
   featured: boolean
   body_type: string
   features: Record<string>
+  featured: boolean
 }
 
 interface Image {

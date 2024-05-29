@@ -14,3 +14,11 @@ interface CarResponse {
 interface ShowCarResponse {
   data: Car
 }
+
+interface BrandResponse {
+  data: Brand[]
+}
+
+interface ShowBrandResponse {
+  data: Brand
+}
