@@ -6,7 +6,8 @@ import axios from 'axios'
 
 export const useBrandStore = defineStore('brands', {
   state: () => ({
-    brands: [] as Brand[]
+    brands: [] as Brand[],
+    isLoading: false
   }),
 
   actions: {
@@ -36,6 +37,8 @@ export const useBrandStore = defineStore('brands', {
 
     async index() {
       try {
+        this.isLoading = true
+
         const { data } = await useApiFetch<BrandResponse>('GET', 'brands')
         
         if (data.data) {
@@ -43,6 +46,8 @@ export const useBrandStore = defineStore('brands', {
         }
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
+      } finally {
+        this.isLoading = false
       }
     },
 

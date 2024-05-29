@@ -17,7 +17,7 @@ const brandStore = useBrandStore()
 onMounted(async () => {
   // TODO: Replace this funciton in Admin dashboard after creating a car
   await carStore.index()
-  // await brandStore.index()
+  await brandStore.index()
 })
 </script>
 

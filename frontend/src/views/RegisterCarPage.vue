@@ -9,14 +9,19 @@
             <div class="w-full max-w-md">
               <form class="text-center" @submit.prevent="handleRegister" novalidate>
                 <label for="brand_id">
-                  <select v-model="form.brand_id" class="input-field border-red-500" required>
-                    <option value="" disabled>Select a brand</option>
-                    <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.name }}</option>
-                  </select>
-                  <span class="text-sm text-red-500" v-if="!form.brand_id">Please select a brand</span>
+                  <template v-if="isLoading">
+                    <select class="input-field border-red-500" disabled>
+                      <option>Loading brands...</option>
+                    </select>
+                  </template>
+                  <template v-else>
+                    <select v-model="form.brand_id" class="input-field border-red-500" required>
+                      <option value="" disabled>Select a brand</option>
+                      <option v-for="brand in brands" :key="brand.id" :value="brand.id">{{ brand.name }}</option>
+                    </select>
+                    <span class="text-sm text-red-500" v-if="!form.brand_id">Please select a brand</span>
+                  </template>
                 </label>
-
-  
                 <label for="model" class="mb-4">
                   <input
                     v-model="form.model"
@@ -175,22 +180,14 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { ref, onMounted, computed } from 'vue'
   import { useCarStore } from '@/stores/useCarStore'
   import { useBrandStore } from '@/stores/useBrandStore'
   
-  const { index } = useBrandStore()
+  const { index, brands, isLoading } = useBrandStore()
 
-  onMounted(async () => {
-  // TODO: Replace this funciton in Admin dashboard after creating a car
-  await index()
-})
-  
   const { store } = useCarStore()
-  const { brands } = useBrandStore()
 
-  console.log(brands);
   const form = ref({
     brand_id: 0,
     model: '',
@@ -205,14 +202,24 @@
     body_type: '',
     features: [''],
     featured: false,
-
-
-    // Add other car registration fields here
   })
   
-  const router = useRouter()
-  
-  const isRegisterButtonDisabled = ref(true)
+  const isRegisterButtonDisabled = computed(() => {
+    return (
+      !form.value.brand_id ||
+      !form.value.model ||
+      !form.value.color ||
+      !form.value.year ||
+      !form.value.price ||
+      !form.value.mileage ||
+      !form.value.transmission_type ||
+      !form.value.fuel_type ||
+      !form.value.engine_size ||
+      !form.value.number_of_seats ||
+      !form.value.body_type 
+      // isLoading
+    )
+  })
   
   const handleRegister = () => {
     store({
@@ -230,8 +237,6 @@
       features: form.value.features,
       featured: form.value.featured,
     })
-    // Perform car registration logic here
-    console.log('Registering car:', form.value);
   }
 
   const showFeatures = ref(false);
