@@ -6,7 +6,8 @@ import axios from 'axios'
 
 export const useCarStore = defineStore('car', {
   state: () => ({
-    cars: [] as Car[]
+    cars: [] as Car[],
+    isLoading: false
   }),
 
   actions: {
@@ -36,6 +37,8 @@ export const useCarStore = defineStore('car', {
 
     async index() {
       try {
+        this.isLoading = true
+
         const { data } = await useApiFetch<CarResponse>('GET', 'cars')
 
         if (data.data) {
@@ -43,11 +46,15 @@ export const useCarStore = defineStore('car', {
         }
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
+      } finally {
+        this.isLoading = false
       }
     },
 
     async show(id: number) {
       try {
+        this.isLoading = true
+
         const { data } = await useApiFetch<ShowCarResponse>('GET', `cars/${id}`)
 
         if (data.data) {
@@ -55,31 +62,48 @@ export const useCarStore = defineStore('car', {
         }
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
+      } finally {
+        this.isLoading = false
       }
     },
 
     async store(body: CarRequest) {
       try {
-        const { data } = await useApiFetch<CarResponse>('POST', 'cars', {
-          data: body
-        })
+        this.isLoading = true
 
+        const bodyToSend = {
+          ...body,
+          features: JSON.stringify(body.features),
+        };
+
+        const { data } = await useApiFetch<ShowCarResponse>('POST', 'cars', {
+          data: bodyToSend
+        })
+        
         if (data.data) {
-          return data.data
+          this.callSnackBar({
+            message: `Car has been created successfully`,
+            type: 'success'
+          })
+          return data.data;
         }
+
+        
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
+      } finally {
+        this.isLoading = false
       }
     },
 
     async update(id: number, body: CarRequest) {
       try {
-        // Ensure features is a JSON string
+        this.isLoading = true
+        
         const bodyToSend = {
           ...body,
           features: JSON.stringify(body.features),
         };
-        console.log(bodyToSend.features);
 
         const { data } = await useApiFetch<CarResponse>('PUT', `cars/${id}`, {
           headers: {
@@ -93,11 +117,15 @@ export const useCarStore = defineStore('car', {
         }
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
+      } finally {
+        this.isLoading = false
       }
     },
 
     async delete(id: number) {
       try {
+        this.isLoading = true
+
         const { data } = await useApiFetch<CarResponse>('DELETE', `cars/${id}`)
 
         if (data.data) {
@@ -105,6 +133,37 @@ export const useCarStore = defineStore('car', {
         }
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+   
+    async storeImages(carId: number, images: File[]) {
+      try {
+        this.isLoading = true;
+    
+        const formData = new FormData();
+        images.forEach((image, index) => {
+          formData.append(`images[${index}]`, image);
+        });
+    
+        const { data } = await useApiFetch<ImageUploadResponse>('POST', `cars/${carId}/images`, {
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log(data);
+        if (data) {
+          this.callSnackBar({
+            message: 'Car images have been uploaded successfully',
+            type: 'success',
+          });
+        }
+      } catch (error) {
+        this.catchError(error);
+      } finally {
+        this.isLoading = false;
       }
     }
   },

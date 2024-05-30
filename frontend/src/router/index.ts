@@ -17,7 +17,8 @@ const router = createRouter({
           path: '/cars/:id',
           name: 'CarDetail',
           component: import('@/views/CarDetail.vue')
-        }
+        },
+        { path: 'register-car', component: import('@/views/RegisterCarPage.vue') }
       ]
     },
     {

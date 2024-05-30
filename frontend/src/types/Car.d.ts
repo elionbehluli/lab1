@@ -33,12 +33,15 @@ interface CarRequest {
   featured: boolean
   body_type: string
   features: Record<string>
+  featured: boolean
 }
 
 interface Image {
   id: number
   car_id: number
   image_url: string
+  mime_type: string
+  size: string
   created_at: string
   updated_at: string
 }
