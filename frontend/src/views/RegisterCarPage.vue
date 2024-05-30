@@ -174,6 +174,28 @@
               </form>
             </div>
           </div>
+          <!--photo-->
+          <div
+            class="drop-area border-2 border-dashed border-gray-300 p-4 text-center"
+            @dragover.prevent
+            @dragenter.prevent
+            @drop="handleDrop"
+          >
+            <input
+              id="file-input"
+              type="file"
+              accept="image/*"
+              ref="file-input"
+              class="hidden"
+              @change="handleFiles"
+            />
+            <p>Drag & Drop photos here or click to browse</p>
+            <button @click="openFileInput" class="bg-blue-500 text-white px-4 py-2 rounded-md mt-4">Browse</button>
+            <div v-for="(photo, index) in photos" :key="index" class="mt-4">
+              <img :src="photo.url" alt="Uploaded Photo" class="max-w-full h-auto"/>
+              <button @click="deletePhoto(index)" class="mt-2 bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -186,7 +208,7 @@
   
   const { index, brands, isLoading } = useBrandStore()
 
-  const { store } = useCarStore()
+  const { store, storeImages } = useCarStore()
 
   const form = ref({
     brand_id: 0,
@@ -222,23 +244,35 @@
   })
   
   const handleRegister = () => {
-    store({
-      brand_id: form.value.brand_id,
-      model: form.value.model,
-      color: form.value.color,
-      year: form.value.year,
-      price: form.value.price,
-      mileage: form.value.mileage,
-      transmission_type: form.value.transmission_type,
-      fuel_type: form.value.fuel_type,
-      engine_size: form.value.engine_size,
-      number_of_seats: form.value.number_of_seats,
-      body_type: form.value.body_type,
-      features: form.value.features,
-      featured: form.value.featured,
-    })
+    (async () => {
+      try {
+        const storedCar = await store({
+          brand_id: form.value.brand_id,
+          model: form.value.model,
+          color: form.value.color,
+          year: form.value.year,
+          price: form.value.price,
+          mileage: form.value.mileage,
+          transmission_type: form.value.transmission_type,
+          fuel_type: form.value.fuel_type,
+          engine_size: form.value.engine_size,
+          number_of_seats: form.value.number_of_seats,
+          body_type: form.value.body_type,
+          features: form.value.features,
+          featured: form.value.featured,
+        });
+        if (storedCar) {
+          storeImages(storedCar.id, images.value);
+        } else {
+          console.log("storedCar is undefined");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+    
   }
-
+ 
   const showFeatures = ref(false);
 
   const addFeature = () => {
@@ -248,6 +282,51 @@
   const removeFeature = (index: number) => {
     form.value.features.splice(index, 1);
   };
+  //photos
+  const photos = ref<{ url: string }[]>([]);
+  const images = ref<File[]>([]);
+
+  const openFileInput = () => {
+  const fileInput = document.querySelector<HTMLInputElement>('#file-input');
+
+  if (fileInput){
+    fileInput.click();
+  } 
+};
+
+const handleFiles = (event: Event) => {
+  const files = (event.target as HTMLInputElement).files;
+  if (!files) return;
+  processFiles(files);
+};
+
+const handleDrop = (event: DragEvent) => {
+  event.preventDefault();
+  const files = event.dataTransfer?.files;
+  if (!files) return;
+  processFiles(files);
+};
+
+const processFiles = (files: FileList) => {
+  
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        photos.value.push({ url: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+      images.value.push(file); // Push the file to the images array
+    }
+  }
+};
+
+const deletePhoto = (index: number) => {
+  photos.value.splice(index, 1);
+  images.value.splice(index, 1); // Remove the corresponding file from the images array
+};
+
   </script>
   
   <style lang="scss" scoped>

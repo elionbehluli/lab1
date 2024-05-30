@@ -76,15 +76,16 @@ export const useCarStore = defineStore('car', {
           features: JSON.stringify(body.features),
         };
 
-        const { data } = await useApiFetch<CarResponse>('POST', 'cars', {
+        const { data } = await useApiFetch<ShowCarResponse>('POST', 'cars', {
           data: bodyToSend
         })
-        console.log(data);
+        
         if (data.data) {
           this.callSnackBar({
             message: `Car has been created successfully`,
             type: 'success'
           })
+          return data.data;
         }
 
         
@@ -134,6 +135,35 @@ export const useCarStore = defineStore('car', {
         this.catchError(error)
       } finally {
         this.isLoading = false
+      }
+    },
+   
+    async storeImages(carId: number, images: File[]) {
+      try {
+        this.isLoading = true;
+    
+        const formData = new FormData();
+        images.forEach((image, index) => {
+          formData.append(`images[${index}]`, image);
+        });
+    
+        const { data } = await useApiFetch<ImageUploadResponse>('POST', `cars/${carId}/images`, {
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log(data);
+        if (data) {
+          this.callSnackBar({
+            message: 'Car images have been uploaded successfully',
+            type: 'success',
+          });
+        }
+      } catch (error) {
+        this.catchError(error);
+      } finally {
+        this.isLoading = false;
       }
     }
   },

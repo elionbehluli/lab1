@@ -15,6 +15,10 @@ interface ShowCarResponse {
   data: Car
 }
 
+interface ImageUploadResponse {
+  data: Image[]
+}
+
 interface BrandResponse {
   data: Brand[]
 }

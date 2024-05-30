@@ -40,6 +40,8 @@ interface Image {
   id: number
   car_id: number
   image_url: string
+  mime_type: string
+  size: string
   created_at: string
   updated_at: string
 }
