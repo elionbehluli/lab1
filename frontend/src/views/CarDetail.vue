@@ -45,7 +45,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 const car = ref<Car>();
 const route = useRoute();
 const router = useRouter();
-const { show, update } = useCarStore();
+const { show, update, storeImages, deleteImages } = useCarStore();
 const carStore = useCarStore();
 const authStore = useAuthStore();
 const showDeleteConfirmation = ref(false);
@@ -72,23 +72,34 @@ const handleDeletion = async () => {
     router.push('/cars');
   } catch (error) {
     console.error('Failed to delete item:', error);
-    // Optionally handle the error state in the UI
   }
 };
 
-const handleEdit = async (editedCar: Car) => {
+const handleEdit = async ({ car: editedCar, newImages, deletedImageIds }: { car: Car; newImages: File[]; deletedImageIds: number[] }) => {
   try {
-    console.log(editedCar.engine_size);
-    console.log(editedCar.features);
-    editedCar.features
-    const response = await update(editedCar.id, editedCar) as Car|any;
+    console.log('New images:', newImages);
+    console.log('Deleted image IDs:', deletedImageIds);
+
+    // Update the car details
+    const response = await update(editedCar.id, editedCar) as Car | any;
+
+    // Store the new images
+    if (newImages.length > 0) {
+      await storeImages(editedCar.id, newImages);
+    }
+
+    // Delete the specified images
+    if (deletedImageIds.length > 0) {
+      await deleteImages(deletedImageIds);
+    }
+
     if (response) {
       car.value = response;
       showEditForm.value = false;
     }
   } catch (error) {
     console.error('Failed to edit item:', error);
-    // Optionally handle the error state in the UI
   }
 };
+
 </script>

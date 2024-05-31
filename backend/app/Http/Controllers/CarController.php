@@ -123,4 +123,36 @@ class CarController extends Controller
         // Return a collection of the car's images as a resource
         return CarImageResource::collection($car->images);
     }
+
+    public function deleteCarImages(Request $request)
+    {
+        // Validate that the request contains an array of image IDs and that each ID exists in the car_images table
+        $validator = Validator::make($request->all(), [
+            'images' => 'required|array',
+            'images.*' => 'integer|exists:car_images,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        // Get the IDs of images to delete from the request
+        $imageIds = $request->input('images');
+        
+        // Retrieve the images that match the provided image IDs
+        $carImages = CarImage::whereIn('id', $imageIds)->get();
+
+        foreach ($carImages as $carImage) {
+            // Delete the image file from storage using the image_url field
+            Storage::disk('public')->delete($carImage->image_url);
+
+            // Delete the image record from the database
+            $carImage->delete();
+        }
+
+        // Return a success response
+        return response()->json(['message' => 'Images deleted successfully.'], 200);
+    }
 }
