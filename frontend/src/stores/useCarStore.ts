@@ -165,6 +165,37 @@ export const useCarStore = defineStore('car', {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    async deleteImages(imageIds: number[]) {
+      try {
+        this.isLoading = true;
+    
+        // Prepare the payload
+        const payload = {
+          images: imageIds
+        };
+    
+        // Make the DELETE request
+        const { data } = await useApiFetch('DELETE', `car-images`, {
+          data: payload,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        console.log(data);
+        if (data) {
+          this.callSnackBar({
+            message: 'Car images have been deleted successfully',
+            type: 'success',
+          });
+        }
+      } catch (error) {
+        this.catchError(error);
+      } finally {
+        this.isLoading = false;
+      }
     }
   },
   persist: true

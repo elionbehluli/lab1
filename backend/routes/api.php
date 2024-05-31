@@ -26,10 +26,10 @@ Route::get('/cars/{id}', [CarController::class, 'show']);
 Route::get('/brands', [BrandController::class, 'index']);
 Route::get('/brands/{id}', [BrandController::class, 'show']);
 
-
 Route::middleware(AdminCheck::class)->group(function () {
     Route::post('/cars', [CarController::class, 'store']);
     Route::post('/cars/{id}/images', [CarController::class, 'storeCarImages']);
+    Route::delete('/car-images', [CarController::class, 'deleteCarImages']);
     Route::put('cars/{id}', [CarController::class, 'update']);
     Route::delete('cars/{id}', [CarController::class, 'destroy']);
 
