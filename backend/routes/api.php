@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\CarController;
 use App\Http\Middleware\AdminCheck;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ManageUsersController;
 
 Route::group([
 
@@ -25,6 +26,11 @@ Route::get('/cars/{id}', [CarController::class, 'show']);
 
 Route::get('/brands', [BrandController::class, 'index']);
 Route::get('/brands/{id}', [BrandController::class, 'show']);
+
+
+Route::get('/users', [ManageUsersController::class, 'index']);
+Route::put('/users/{id}/edit-role', [ManageUsersController::class, 'editRole']);
+Route::delete('users/{id}', [ManageUsersController::class, 'destroy']);
 
 Route::middleware(AdminCheck::class)->group(function () {
     Route::post('/cars', [CarController::class, 'store']);

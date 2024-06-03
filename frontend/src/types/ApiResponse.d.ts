@@ -26,3 +26,7 @@ interface BrandResponse {
 interface ShowBrandResponse {
   data: Brand
 }
+
+interface UserResponse {
+  data: User[]
+}
