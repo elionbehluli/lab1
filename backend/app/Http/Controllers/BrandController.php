@@ -64,7 +64,9 @@ class BrandController extends Controller
 
         $requestData = $request->all();
 
-        $brand->deleteLogo($id);
+        if($brand->logo_url !== null){
+            $brand->deleteLogo($id); 
+        }
         
         // Check each field in the validated data
         foreach ($requestData as $key => $value) {
@@ -75,8 +77,8 @@ class BrandController extends Controller
         }
         
         $validator = Validator::make($requestData, [
-            'name' => 'sometimes|string', // Require an array field named images
-            'country_of_origin' => 'sometimes|string', // Each file in the array should be an image and up to 10 MB
+            'name' => 'sometimes|string', 
+            'country_of_origin' => 'sometimes|string', 
             'logo_url' => 'file|image|max:10240',
         ]);
         
@@ -109,7 +111,9 @@ class BrandController extends Controller
     public function destroy($id): bool
     {
         $brand = Brand::findOrFail($id);
-        $brand->deleteLogo($id); 
+        if($brand->logo_url !== null){
+            $brand->deleteLogo($id); 
+        }
         return $brand->delete();
     }
 

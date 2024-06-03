@@ -18,7 +18,14 @@ const router = createRouter({
           name: 'CarDetail',
           component: import('@/views/CarDetail.vue')
         },
-        { path: 'register-car', component: import('@/views/RegisterCarPage.vue') }
+        { path: 'register-car', component: import('@/views/RegisterCarPage.vue') },
+        { path: 'brands', component: import('@/views/BrandsView.vue') },
+        { path: 'register-brand', component: import('@/views/RegisterBrandPage.vue') },
+        {
+          path: '/edit-brand/:id',
+          name: 'EditBrandForm',
+          component: import('@/views/EditBrandForm.vue')
+        },
       ]
     },
     {
