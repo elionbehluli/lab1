@@ -19,7 +19,7 @@
     </div>
     <div v-if="authStore.isAdmin">
   <router-link :to="{ name: 'EditBrandForm', params: { id: brand.id }}" class="text-black hover:text-gray-300">
-    <button class="py-1 px-2">Register</button>
+    <button class="py-1 px-2">Edit</button>
   </router-link>
 </div>
   </div>

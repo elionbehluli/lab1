@@ -5,7 +5,7 @@
       <BrandCard v-for="(brand, index) in brands" :key="index" :brand="brand" :card-width="cardWidth" />
     </div>
     <div v-if="authStore.isAdmin">
-      <router-link to="/register-car" class="text-black hover:text-gray-300">
+      <router-link to="/register-brand" class="text-black hover:text-gray-300">
         <button class="py-1 px-2">Register</button>
       </router-link>
     </div>
