@@ -6,3 +6,10 @@ interface Brand{
   created_at: Date
   updated_at: Date
 }
+
+interface BrandRequest{
+  name: string
+  country_of_origin: string
+  logo_url: File
+}
+

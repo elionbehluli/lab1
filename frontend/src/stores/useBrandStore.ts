@@ -51,6 +51,86 @@ export const useBrandStore = defineStore('brands', {
       }
     },
 
+    async show(id: number) {
+      try {
+        this.isLoading = true
+
+        const { data } = await useApiFetch<ShowBrandResponse>('GET', `brands/${id}`)
+
+        if (data.data) {
+          return data.data
+        }
+      } catch (error: unknown | Error | AxiosError) {
+        this.catchError(error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async store(body: BrandRequest) {
+      try {
+        this.isLoading = true
+        console.log(body)
+        const { data } = await useApiFetch<ShowBrandResponse>('POST', 'brands', {
+          data: body,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        
+        if (data.data) {
+          this.callSnackBar({
+            message: `Brand has been created successfully`,
+            type: 'success'
+          })
+          return data.data;
+        }
+
+        
+      } catch (error: unknown | Error | AxiosError) {
+        this.catchError(error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async update(id: number, body: BrandRequest) {
+      try {
+        this.isLoading = true
+        
+        const { data } = await useApiFetch<BrandResponse>('POST', `brands/${id}`, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          data: body
+        })
+
+        if (data.data) {
+          return data.data
+        }
+      } catch (error: unknown | Error | AxiosError) {
+        this.catchError(error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async delete(id: number) {
+      try {
+        this.isLoading = true
+
+        const { data } = await useApiFetch<BrandResponse>('DELETE', `brands/${id}`)
+
+        if (data.data) {
+          return data.data
+        }
+      } catch (error: unknown | Error | AxiosError) {
+        this.catchError(error)
+      } finally {
+        this.isLoading = false
+      }
+    },
+
     
   },
   persist: true
