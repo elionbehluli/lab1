@@ -154,7 +154,6 @@
                 <span class="text-sm text-red-500" v-if="!form.featured">Please select whether featured or not</span>
                 Featured
               </label>
-
   
                 <!-- Add other car registration fields here -->
   

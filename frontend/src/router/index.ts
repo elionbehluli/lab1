@@ -26,6 +26,7 @@ const router = createRouter({
           name: 'EditBrandForm',
           component: import('@/views/EditBrandForm.vue')
         },
+        { path: 'users', component: import('@/views/UsersView.vue') },
       ]
     },
     {

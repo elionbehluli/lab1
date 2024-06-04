@@ -13,7 +13,6 @@ class BrandController extends Controller
     {
         $brands = Brand::all();
         return BrandResource::collection($brands);
-
     }
 
     public function store(Request $request)
