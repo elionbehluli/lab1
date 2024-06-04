@@ -28,9 +28,6 @@ Route::get('/brands', [BrandController::class, 'index']);
 Route::get('/brands/{id}', [BrandController::class, 'show']);
 
 
-Route::get('/users', [ManageUsersController::class, 'index']);
-Route::put('/users/{id}/edit-role', [ManageUsersController::class, 'editRole']);
-Route::delete('users/{id}', [ManageUsersController::class, 'destroy']);
 
 Route::middleware(AdminCheck::class)->group(function () {
     Route::post('/cars', [CarController::class, 'store']);
@@ -38,6 +35,10 @@ Route::middleware(AdminCheck::class)->group(function () {
     Route::delete('/car-images', [CarController::class, 'deleteCarImages']);
     Route::put('cars/{id}', [CarController::class, 'update']);
     Route::delete('cars/{id}', [CarController::class, 'destroy']);
+    
+    Route::get('/users', [ManageUsersController::class, 'index']);
+    Route::put('/users/{id}/edit-role', [ManageUsersController::class, 'editRole']);
+    Route::delete('users/{id}', [ManageUsersController::class, 'destroy']);
 
     Route::post('/brands', [BrandController::class, 'store']);
     Route::delete('brands/{id}', [BrandController::class, 'destroy']);

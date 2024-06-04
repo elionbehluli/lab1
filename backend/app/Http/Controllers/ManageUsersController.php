@@ -10,8 +10,8 @@ class ManageUsersController extends Controller
 {
     public function index()
     {
-        $user = User::all();
-        return UserResource::collection($user);
+        $usersWithoutAdminRole = User::where('role', '<>', 'admin')->get();
+        return UserResource::collection($usersWithoutAdminRole);
     }
 
     public function editRole(Request $request, int $id)
