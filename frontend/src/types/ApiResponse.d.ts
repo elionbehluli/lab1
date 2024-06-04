@@ -30,3 +30,7 @@ interface ShowBrandResponse {
 interface UserResponse {
   data: User[]
 }
+
+interface ServiceResponse {
+  data: Service[]
+}

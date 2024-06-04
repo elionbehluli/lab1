@@ -1,15 +1,16 @@
 import { useApiFetch } from '@/composables/useApiFetch'
+import router from '@/router'
 import { defineStore } from 'pinia'
 import { useSnackbarStore } from './useSnackbarStore'
 import type { AxiosError } from 'axios'
 import axios from 'axios'
 
-export const useBrandStore = defineStore('brands', {
+export const useServiceStore = defineStore('service', {
   state: () => ({
-    brands: [] as Brand[],
+    services: [] as Service[],
     isLoading: false
   }),
-
+  
   actions: {
     catchError(error: unknown | Error | AxiosError) {
       if (axios.isAxiosError(error) && error.response && error.response.data) {
@@ -39,10 +40,10 @@ export const useBrandStore = defineStore('brands', {
       try {
         this.isLoading = true
 
-        const { data } = await useApiFetch<BrandResponse>('GET', 'brands')
-        
+        const { data } = await useApiFetch<ServiceResponse>('GET', 'services')
+
         if (data.data) {
-          this.brands = data.data
+          this.services = data.data
         }
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
@@ -51,40 +52,22 @@ export const useBrandStore = defineStore('brands', {
       }
     },
 
-    async show(id: number) {
+    async store(body: ServiceRequest) {
       try {
         this.isLoading = true
-
-        const { data } = await useApiFetch<ShowBrandResponse>('GET', `brands/${id}`)
-
-        if (data.data) {
-          return data.data
-        }
-      } catch (error: unknown | Error | AxiosError) {
-        this.catchError(error)
-      } finally {
-        this.isLoading = false
-      }
-    },
-
-    async store(body: BrandRequest) {
-      try {
-        this.isLoading = true
-
-        const { data } = await useApiFetch<ShowBrandResponse>('POST', 'brands', {
+  
+        const { data } = await useApiFetch<ServiceResponse>('POST', 'services', {
           data: body,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
         })
         
         if (data.data) {
           this.callSnackBar({
-            message: `Brand has been created successfully`,
+            message: `Service has been created successfully`,
             type: 'success'
           })
           return data.data;
         }
+           
       } catch (error: unknown | Error | AxiosError) {
         this.catchError(error)
       } finally {
@@ -92,13 +75,13 @@ export const useBrandStore = defineStore('brands', {
       }
     },
 
-    async update(id: number, body: BrandRequest) {
+    async update(id: number, body: ServiceRequest) {
       try {
         this.isLoading = true
         
-        const { data } = await useApiFetch<BrandResponse>('POST', `brands/${id}`, {
+        const { data } = await useApiFetch<ServiceResponse>('PUT', `services/${id}`, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json'
           },
           data: body
         })
@@ -117,7 +100,7 @@ export const useBrandStore = defineStore('brands', {
       try {
         this.isLoading = true
 
-        const { data } = await useApiFetch<BrandResponse>('DELETE', `brands/${id}`)
+        const { data } = await useApiFetch<ServiceResponse>('DELETE', `services/${id}`)
 
         if (data.data) {
           return data.data
@@ -128,7 +111,6 @@ export const useBrandStore = defineStore('brands', {
         this.isLoading = false
       }
     },
-
     
   },
   persist: true
