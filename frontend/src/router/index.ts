@@ -27,6 +27,7 @@ const router = createRouter({
           component: import('@/views/EditBrandForm.vue')
         },
         { path: 'users', component: import('@/views/UsersView.vue') },
+        { path: 'register-service', component: import('@/views/RegisterServicePage.vue') },
       ]
     },
     {
