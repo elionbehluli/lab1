@@ -13,6 +13,17 @@ const router = createRouter({
         { path: 'services', component: import('@/views/ServicesView.vue') },
         { path: 'cars', component: import('@/views/CarsView.vue') },
         { path: 'contact', component: import('@/views/ContactView.vue') },
+        { path: 'car_parts', component: import('@/views/CarPartsView.vue') },
+        { path: 'add-car-parts', component: import('@/views/AddCarPartsView.vue') },
+
+        { path: 'car-detail', component: import('@/views/CarPartsDetailView.vue') },
+        
+        {
+          path: '/car_parts/:id',
+          name: 'CarPartsDetail',
+          component: () => import('@/views/CarPartsDetailView.vue')
+        },
+
         {
           path: '/cars/:id',
           name: 'CarDetail',

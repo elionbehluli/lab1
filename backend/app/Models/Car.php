@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Brand;
 use App\Models\CarImage;
 use App\Models\ServiceHistory;
+use App\Models\CarPart;
+
 
 class Car extends Model
 {
@@ -41,5 +43,10 @@ class Car extends Model
     public function serviceHistories()
     {
         return $this->hasMany(ServiceHistory::class);
+    }
+
+    public function carParts()
+    {
+        return $this->hasMany(CarPart::class);
     }
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ManageUsersController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceHistoriesController;
+use App\Http\Controllers\CarPartController;
+
 
 Route::group([
 
@@ -40,6 +42,15 @@ Route::get('/service-histories/{id}/car', [ServiceHistoriesController::class, 's
 Route::post('/service-histories', [ServiceHistoriesController::class, 'store']);
 Route::get('/service-histories/{id}', [ServiceHistoriesController::class, 'show']);
 Route::delete('services-histories/{id}', [ServiceHistoriesController::class, 'destroy']);
+
+Route::get('/car_parts', [CarPartController::class, 'index']);
+Route::get('/car_parts/{id}/car', [CarPartController::class, 'specificCarParts']);
+Route::post('/car_parts', [CarPartController::class, 'store']);
+Route::get('/car_parts/{id}', [CarPartController::class, 'show']);
+Route::put('car_parts/{id}', [CarPartController::class, 'update']);
+Route::delete('car_parts/{id}', [CarPartController::class, 'destroy']);
+Route::put('/car_parts/{id}/add', [CarPartController::class, 'addCarPartsToCar']);
+
 
 Route::middleware(AdminCheck::class)->group(function () {
     Route::post('/cars', [CarController::class, 'store']);

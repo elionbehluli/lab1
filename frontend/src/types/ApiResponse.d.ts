@@ -38,3 +38,15 @@ interface ServiceResponse {
 interface ServiceHistoryResponse {
   data: ServiceHistory[]
 }
+
+interface ShowServiceHistoryResponse {
+  data: ServiceHistory
+}
+
+interface CarPartsResponse {
+  data: CarParts[]
+}
+
+interface ShowCarPartsResponse {
+  data: CarParts[]
+}

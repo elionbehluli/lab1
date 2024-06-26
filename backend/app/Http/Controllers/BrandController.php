@@ -56,9 +56,7 @@ class BrandController extends Controller
 
     public function update(Request $request, int $id)
     {
-       
-
-        // Find the car record using the provided ID
+       // Find the car record using the provided ID
         $brand = Brand::findOrFail($id);
 
         $requestData = $request->all();
