@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Brand;
 use App\Models\CarImage;
+use App\Models\ServiceHistory;
 
 class Car extends Model
 {
@@ -35,5 +36,10 @@ class Car extends Model
     public function images()
     {
         return $this->hasMany(CarImage::class);
+    }
+
+    public function serviceHistories()
+    {
+        return $this->hasMany(ServiceHistory::class);
     }
 }

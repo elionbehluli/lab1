@@ -7,6 +7,7 @@ use App\Http\Middleware\AdminCheck;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ManageUsersController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceHistoriesController;
 
 Route::group([
 
@@ -33,6 +34,12 @@ Route::post('/services', [ServiceController::class, 'store']);
 Route::get('/services/{id}', [ServiceController::class, 'show']);
 Route::put('services/{id}', [ServiceController::class, 'update']);
 Route::delete('services/{id}', [ServiceController::class, 'destroy']);
+
+Route::get('/service-histories', [ServiceHistoriesController::class, 'index']);
+Route::get('/service-histories/{id}/car', [ServiceHistoriesController::class, 'specificCarSerciveHistory']);
+Route::post('/service-histories', [ServiceHistoriesController::class, 'store']);
+Route::get('/service-histories/{id}', [ServiceHistoriesController::class, 'show']);
+Route::delete('services-histories/{id}', [ServiceHistoriesController::class, 'destroy']);
 
 Route::middleware(AdminCheck::class)->group(function () {
     Route::post('/cars', [CarController::class, 'store']);
