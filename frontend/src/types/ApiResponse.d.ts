@@ -34,3 +34,7 @@ interface UserResponse {
 interface ServiceResponse {
   data: Service[]
 }
+
+interface ServiceHistoryResponse {
+  data: ServiceHistory[]
+}
