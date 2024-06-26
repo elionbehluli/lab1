@@ -168,4 +168,5 @@ export const useAuthStore = defineStore('auth', {
       this.jwtToken = cookie
     }
   },
+  persist: true
 })
