@@ -12,11 +12,6 @@
     <div class="grid grid-cols-3 gap-4">
       <CarCard v-for="(car, index) in sortedCars" :key="index" :car="car" :card-width="cardWidth" />
     </div>
-    <div v-if="authStore.isAdmin">
-      <router-link to="/register-car" class="text-black hover:text-gray-300">
-        <button class="py-1 px-2">Register</button>
-      </router-link>
-    </div>
   </div>
 </template>
 
@@ -25,13 +20,11 @@ import CarCard from '@/components/CarCard.vue'
 import { useCarStore } from '@/stores/useCarStore'
 import { ref, computed } from 'vue'
 import { useSorted } from '@vueuse/core'
-import { useAuthStore } from '@/stores/useAuthStore';
 
 const { cars } = useCarStore()
 const cardWidth = 'calc(25% - 10px)'
 const isAscending = ref(false)
 const sortCriterion = ref<'price' | 'mileage'>('price')
-const authStore = useAuthStore();
 
 const sortedCars = computed(() => {
   return sortCriterion.value === 'price'

@@ -23,14 +23,15 @@
                   v-model="form.email"
                   type="email"
                   placeholder="Email Adress"
-                  class="input-field invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer"
+                  class="input-field peer"
                   required
                   :disabled="isLoading"
                   :class="{
+                    'invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500': !isLoading,
                     'placeholder-gray-300 border-gray-300 text-gray-400': isLoading,
                     'placeholder-gray-400 border-gray-500': !isLoading
                   }"
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"
                 />
                 <span
                   class="mb-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block"

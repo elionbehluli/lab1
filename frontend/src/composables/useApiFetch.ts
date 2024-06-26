@@ -5,17 +5,27 @@ import { useCookies } from '@vueuse/integrations/useCookies'
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
 export function useApiFetch<T>(method: string, path: string, options: AxiosRequestConfig = {}) {
-  const headers: Record<string, string> = {}
-  const { jwtToken, setJWTTokenFromCookie } = useAuthStore()
-
+  const authStore = useAuthStore()
   const cookie = useCookies(['jwtToken'])
   const token = cookie.get('jwtToken')
 
-  if (!jwtToken && token) {
-    headers.Authorization = `Bearer ${token}`
-    setJWTTokenFromCookie(token)
-  } else if (jwtToken) {
-    headers.Authorization = `Bearer ${jwtToken}`
+  if (!authStore.jwtToken && token) {
+    authStore.setJWTTokenFromCookie(token)
+  }
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  }
+
+  if (authStore.jwtToken) {
+    headers.Authorization = `Bearer ${authStore.jwtToken}`
+
+    // Check token expiry
+    const tokenData = JSON.parse(atob(authStore.jwtToken.split('.')[1]))
+    const expiry = tokenData.exp * 1000 // Convert seconds to milliseconds
+    if (Date.now() >= expiry) {
+      authStore.$reset()
+    }
   }
 
   const xsrfToken = cookie.get('XSRF-TOKEN')

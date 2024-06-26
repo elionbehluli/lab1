@@ -1,13 +1,45 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-    <h1 class="text-3xl font-bold mb-4">Dashboard</h1>
-    <p class="text-lg text-gray-600">We are here to improve. Let's do our best!</p>
-    <button
-      class="mt-8 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-    >
-      Get Started
-    </button>
+  <div class="flex h-screen">
+    <DashboardSideBar @change-view="updateActiveComponent" />
+    <div class="flex-1" style="margin-left: 17em">
+      <!-- Dynamic component area -->
+      <component :is="activeComponent"></component>
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import DashboardSideBar from '@/components/DashboardSideBar.vue'
+import DashboardUsers from '@/components/DashboardUsers.vue'
+import DashboardMain from '@/components/DashboardMain.vue'
+import DashboardCars from '@/components/DashboardCars.vue'
+import DashboardCreateCar from '@/components/DashboardCreateCar.vue'
+import DashboardServices from '@/components/DashboardServices.vue'
+import DashboardAddService from '@/components/DashboardAddService.vue'
+
+import { ref } from 'vue'
+
+const activeComponent = ref(DashboardMain)
+
+function updateActiveComponent(componentName: any) {
+  switch (componentName) {
+    case 'users':
+      activeComponent.value = DashboardUsers
+      break
+    case 'cars':
+      activeComponent.value = DashboardCars
+      break
+    case 'add-car':
+      activeComponent.value = DashboardCreateCar
+      break
+    case 'services':
+      activeComponent.value = DashboardServices
+      break
+    case 'add-service':
+      activeComponent.value = DashboardAddService
+      break
+    default:
+      activeComponent.value = DashboardMain
+  }
+}
+</script>

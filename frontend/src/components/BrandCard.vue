@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, type PropType, ref } from 'vue'
+import { type PropType, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/useAuthStore';
 import DeleteConfirmation from '@/components/DeleteConfirmation.vue';

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, type PropType } from 'vue'
+import { type PropType } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineProps({
